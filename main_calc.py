@@ -7,6 +7,8 @@ main.iconbitmap("calculator.ico")
 myFrame = Frame(main)
 myFrame.pack()
 
+operation = ""
+result=0
 
 #------------------------Screen-------------------------------
 
@@ -19,7 +21,29 @@ screen.config(background="gray", fg="#130FFA", justify="right")
 #------------------------keystrokes---------------------------
 
 def strokesNumber(num):
-    screenNumber.set(screenNumber.get() + num)
+    global operation
+    if operation == "+":
+        screenNumber.set(num)
+        operation = ""
+    else:
+        screenNumber.set(screenNumber.get() + num)
+
+#------------------------sum function-------------------------
+
+def sum(num):
+    global operation
+    global result
+    result+=int(num)
+    operation = "+"
+
+    screenNumber.set(result)
+
+#------------------------equal function-------------------------
+
+def equal():
+    global result
+    screenNumber.set(result+int(screenNumber.get()))
+    result = 0
 
 #------------------------row 1------------------------------
 
@@ -58,11 +82,11 @@ buttonRest.grid(row=4, column=4)
 
 buttonPoint = Button(myFrame, text=".", width=3, command=lambda:strokesNumber("."))
 buttonPoint.grid(row=5, column=1)
-button0 = Button(myFrame, text="0", width=3, command=strokesNumber("0"))
+button0 = Button(myFrame, text="0", width=3, command=lambda:strokesNumber("0"))
 button0.grid(row=5, column=2)
-buttonEqual= Button(myFrame, text="=", width=3)
+buttonEqual= Button(myFrame, text="=", width=3, command=lambda:equal())
 buttonEqual.grid(row=5, column=3)
-buttonMore = Button(myFrame, text="+", width=3)
+buttonMore = Button(myFrame, text="+", width=3, command=lambda:sum(screenNumber.get()))
 buttonMore.grid(row=5, column=4)
 
 
